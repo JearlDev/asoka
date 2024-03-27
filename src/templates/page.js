@@ -9,12 +9,10 @@ const Page = (props) => {
   //   const { location } = props;
 
   return (
-    <div className="fullPageanimation">
-      <Layout props={props}>
-        {/* <Seo seo={post.seo} /> */}
-        <Main modules={post.pageContent} location={location} />
-      </Layout>
-    </div>
+    <Layout props={props}>
+      {/* <Seo seo={post.seo} /> */}
+      <Main modules={post.pageContent} location={location} />
+    </Layout>
   );
 };
 
