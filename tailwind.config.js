@@ -52,14 +52,11 @@ module.exports = {
       76: '4.75rem',
     },
     letterSpacing: {
-      tight: '-2%',
+      tight: '-0.2px',
       normal: '0',
-      wide: '1%',
-      wider: '2%',
-      button: '2%',
-      headingLarge: '1%',
-      headingSmall: '-2%',
-      body: '0',
+      wide: '0.2px',
+      wider: '1px',
+      widest: '3px',
     },
     extend: {
       screens: {
