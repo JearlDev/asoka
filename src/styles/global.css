@@ -39,3 +39,63 @@
   font-display: swap;
 }
 /* Fonts End */
+
+/* Typography Start */
+.heading {
+  @apply font-heading;
+}
+.heading--lg {
+  @apply leading-headingLarge tracking-widest -md:tracking-wider text-40 -lg:text-34 -md:text-28;
+}
+.heading--md {
+  @apply leading-heading text-36 -lg:text-30 -md:text-22;
+}
+.heading--sm {
+  @apply leading-heading text-22 -lg:text-20;
+}
+.body-text {
+  @apply font-body leading-normal;
+}
+.bodyText a {
+  @apply text-primary transition-all duration-150 ease-out;
+}
+.bodyText a:hover {
+  @apply cursor-pointer opacity-70;
+}
+/* Typography End */
+
+/* Buttons Start */
+.btn {
+  @apply block font-body tracking-wide text-13 uppercase leading-fit relative;
+}
+.btn--underline {
+  @apply pb-[7px] after:content-[''] after:absolute after:bottom-0 after:left-0 after:bg-primary after:w-[30%] after:h-[1px] after:transition-all after:duration-300 after:ease-out hover:after:w-full;
+}
+
+.btn--underline__inner {
+  @apply transition-all duration-300 ease-out;
+}
+
+.btn--underline .btn--underline__inner.overlayText {
+  @apply w-0 overflow-hidden text-primary absolute top-0 left-0 whitespace-nowrap;
+}
+.btn--underline:hover .overlayText {
+  @apply w-full;
+}
+.btn--underlineDark .btn--underline__inner {
+  @apply text-secondary;
+}
+.btn--underlineLight .btn--underline__inner {
+  @apply text-white;
+}
+/*
+.btn--rounded {
+    
+}
+.btn--roundedWhite {
+    
+}
+.btn--roundedGold {
+    
+} */
+/* Buttons End */
