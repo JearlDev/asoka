@@ -53,7 +53,8 @@
 .heading--sm {
   @apply leading-heading text-22 -lg:text-20;
 }
-.body-text {
+.body-text,
+.body-text p {
   @apply font-body leading-normal;
 }
 .bodyText a {
@@ -65,6 +66,9 @@
 /* Typography End */
 
 /* Buttons Start */
+.btn-wrapper {
+  @apply flex gap-3 justify-start -md:flex-col -md:items-start mt-10;
+}
 .btn {
   @apply block font-body tracking-wide text-13 uppercase leading-fit relative hover:cursor-pointer;
 }
