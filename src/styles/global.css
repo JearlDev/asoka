@@ -1,3 +1,108 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fonts Start */
+@font-face {
+  font-family: 'Tan Angleton';
+  src: url('/fonts/TAN - Angleton Regular.woff2') format('woff2'),
+    url('/fonts/TAN - Angleton Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/fonts/OpenSans-Regular.woff2') format('woff2'),
+    url('/fonts/OpenSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/fonts/OpenSans-Bold.woff2') format('woff2'),
+    url('/fonts/OpenSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/fonts/OpenSans-Italic.woff2') format('woff2'),
+    url('/fonts/OpenSans-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+/* Fonts End */
+
+/* Typography Start */
+.heading {
+  @apply font-heading;
+}
+.heading--lg {
+  @apply leading-headingLarge tracking-widest -md:tracking-wider text-40 -lg:text-34 -md:text-28;
+}
+.heading--md {
+  @apply leading-heading text-36 -lg:text-30 -md:text-22;
+}
+.heading--sm {
+  @apply leading-heading text-22 -lg:text-20;
+}
+.body-text,
+.body-text p {
+  @apply font-body leading-normal;
+}
+.bodyText a {
+  @apply text-primary transition-all duration-150 ease-out;
+}
+.bodyText a:hover {
+  @apply cursor-pointer opacity-70;
+}
+/* Typography End */
+
+/* Buttons Start */
+.btn-wrapper {
+  @apply flex gap-3 justify-start -md:flex-col -md:items-start mt-10;
+}
+.btn {
+  @apply block font-body tracking-wide text-13 uppercase leading-fit relative hover:cursor-pointer;
+}
+.btn--underline {
+  @apply pb-[7px] after:content-[''] after:absolute after:bottom-0 after:left-0 after:bg-primary after:w-[30%] after:h-[1px] after:transition-all after:duration-300 after:ease-out hover:after:w-full;
+}
+
+.btn--underline__inner {
+  @apply transition-all duration-300 ease-out;
+}
+
+.btn--underline .btn--underline__inner.overlayText {
+  @apply w-0 overflow-hidden text-primary absolute top-0 left-0 whitespace-nowrap;
+}
+.btn--underline:hover .overlayText {
+  @apply w-full;
+}
+.btn--underlineDark .btn--underline__inner {
+  @apply text-secondary;
+}
+.btn--underlineLight .btn--underline__inner {
+  @apply text-white;
+}
+
+.btn--rounded {
+  @apply py-15 px-30 rounded-[20px] overflow-hidden after:content-[''] after:absolute after:top-0 after:right-[-25%] after:h-full after:w-[150%] after:block after:rounded-tl-[0px] after:rounded-bl-[20px] after:transition-all after:duration-[475ms] after:ease-out hover:after:rounded-bl-[100%]  hover:after:w-0;
+}
+.btn--rounded__text {
+  @apply relative z-[9999] transition-all delay-[75ms] duration-[400ms] ease-out;
+}
+.btn--roundedWhite {
+  @apply text-secondary bg-primary  after:bg-white  hover:text-white;
+}
+.btn--roundedGold {
+  @apply text-white bg-white  after:bg-primary  hover:text-secondary;
+}
+/* Buttons End */
