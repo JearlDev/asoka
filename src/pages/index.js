@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../layout';
+import Layout from '../Layout';
 
 //components
 import Hero from '../components/Hero/Hero';

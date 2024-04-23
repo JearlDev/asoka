@@ -1,7 +1,15 @@
-import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 
 import './Hero.css';
+import HeroBottomFadeOverlay from './HeroBottomFadeOverlay';
+import HeroLogo from './HeroLogo';
 
 const Hero = () => {
   const [videoModalIsOpen, setVideoModalIsOpen] = useState(false);
@@ -13,74 +21,90 @@ const Hero = () => {
 
   useEffect(() => {
     if (data.videoUrl) {
+      let videoOpened = false;
       // open lightbox
       if (videoModalIsOpen) {
         const videoBtn = document.querySelector('.video-modal-btn');
         const video = document.querySelector('.video-modal video');
-        const videoModal = document.querySelector('.video-modal');
-        const videoClose = document.querySelector('.video-modal__close');
 
         // set video src
         video.src = videoBtn
           .querySelector('#video-src')
           .getAttribute('data-src');
 
-        // show lightbox
-        videoModal.style.display = 'block';
-        setTimeout(function () {
-          videoModal.style.opacity = '100%';
-        }, 10);
-        setTimeout(function () {
-          video.style.opacity = '100%';
-          video.style.transform = 'scale(1,1)';
-        }, 140);
-        setTimeout(function () {
-          videoClose.style.opacity = '100%';
-          videoClose.style.transform = 'translateX(0)';
-        }, 350);
-        // setTimeout(function () {
-        //   document.body.style.overflow = 'hidden';
-        // }, 750);
-
         video.play();
+
+        let videoOpened = true;
       } else {
-        // close lightbox
-        const video = document.querySelector('.video-modal video');
-        const videoModal = document.querySelector('.video-modal');
-        const videoClose = document.querySelector('.video-modal__close');
-        document.querySelector('.video-modal');
+        if (videoOpened) {
+          // close lightbox
+          const video = document.querySelector('.video-modal video');
 
-        // hide lightbox
-        videoClose.style.transform = 'translateX(10%)';
-        videoClose.style.opacity = '0';
-
-        setTimeout(function () {
-          video.style.opacity = '0';
-          video.style.transform = 'scale(0.9,0.9)';
-        }, 200);
-        setTimeout(function () {
-          videoModal.style.opacity = '0';
-        }, 300);
-        setTimeout(function () {
-          videoModal.style.display = 'none';
-          // document.body.style.overflow = 'visible';
-        }, 600);
-
-        video.pause();
+          video.pause();
+        }
       }
     }
   }, [videoModalIsOpen, data.videoUrl]);
+
+  const videoModalWrapperVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const videoModalButtonVariants = {
+    hidden: { opacity: 0, x: 10 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: 0.9,
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const videoModalVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: 0.3,
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const container = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end start'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    console.log(scrollYProgress.current);
+  });
+
   return (
     <>
-      <section className="hero h-screen w-full relative flex flex-col items-center">
-        <a href="/" className="relative z-[20]">
-          <img
-            src="/images/logo-white.svg"
-            alt=""
-            className="logo logo--hero object-contain h-[150px] mt-25"
-          />
-        </a>
-        <img
+      <section
+        ref={container}
+        className="hero h-screen w-full relative flex flex-col items-center overflow-hidden"
+      >
+        <HeroLogo />
+        <motion.img
+          style={{ y }}
           src={data.imageUrl}
           alt=""
           className="bg-img bg-img--hero absolute top-0 left-0 object-cover h-full w-full"
@@ -117,37 +141,90 @@ const Hero = () => {
             ></span>
           </button>
         </div>
+        <HeroBottomFadeOverlay />
       </section>
-
-      {/* {videoModalIsOpen && ( */}
-      <section
-        className="video-modal fixed h-screen w-full top-0 right-0 z-[99999999] bg-black/70"
-        style={{ display: 'none' }}
-      >
-        <div className="video-modal__inner h-full w-full flex items-center justify-center">
-          <button
-            onClick={() => {
-              setVideoModalIsOpen(false);
-            }}
-            className="video-modal__close flex items-center gap-3 transition-all duration-300 ease-out absolute top-[24px] right-[28px] z-50 py-10 hover:cursor-pointer"
+      <AnimatePresence>
+        {videoModalIsOpen && (
+          <motion.section
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            variants={videoModalWrapperVariants}
+            className="video-modal fixed h-screen w-full top-0 right-0 z-[99999999] bg-black/70"
           >
-            <img
-              src="/images/icons/close.svg"
-              alt=""
-              className="video-modal__close__icon"
-            />
-            <span className="menu-modal__close__text text-white btn">
-              Close
-            </span>
-          </button>
-          <video
-            className="h-[42vw] w-[82vw] -md:h-[70vh] -md:w-[90vw] overflow-hidden object-cover bg-transparent rounded-[10px]"
-            controls
-            type="video/mp4"
-          ></video>
-        </div>
+            <div className="video-modal__inner h-full w-full flex items-center justify-center">
+              <motion.button
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                variants={videoModalButtonVariants}
+                onClick={() => {
+                  setVideoModalIsOpen(false);
+                }}
+                className="video-modal__close flex items-center gap-3 transition-all duration-300 ease-out absolute top-[24px] right-[28px] z-50 py-10 hover:cursor-pointer"
+              >
+                <img
+                  src="/images/icons/close.svg"
+                  alt=""
+                  className="video-modal__close__icon"
+                />
+                <span className="menu-modal__close__text text-white btn">
+                  Close
+                </span>
+              </motion.button>
+              <motion.video
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                variants={videoModalVariants}
+                className="h-[42vw] w-[82vw] -md:h-[70vh] -md:w-[90vw] overflow-hidden object-cover bg-transparent rounded-[10px]"
+                controls
+                type="video/mp4"
+              ></motion.video>
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      <section className="menu-modal"></section>
+
+      <section className="bg-primary text-40 py-100 px-80 text-center">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus rem
+        ratione eum pariatur saepe numquam laudantium omnis obcaecati eveniet
+        nisi veniam dolor facilis distinctio, voluptatibus amet provident.
+        Similique, consequatur quas! Commodi inventore beatae porro dicta
+        excepturi praesentium corrupti quo tempore molestiae? Dolor cupiditate
+        earum nam voluptas consequatur repellendus ab odit blanditiis nesciunt,
+        culpa veniam reiciendis minima atque ullam laborum. Iusto! Nostrum
+        voluptatem, fugiat beatae odit, vel eaque expedita commodi fugit
+        exercitationem doloremque asperiores mollitia, impedit labore provident
+        ipsum rem distinctio velit consequatur accusamus tempore consectetur
+        dolor libero! Minus, nisi magnam. Maiores quos aliquid nisi voluptatem
+        earum explicabo temporibus modi, adipisci eaque dolore blanditiis
+        voluptates, est saepe quia cupiditate doloremque pariatur veritatis et!
+        Aspernatur exercitationem saepe assumenda odio. Distinctio, ut.
+        Perspiciatis? Sit, voluptates debitis doloribus, consequatur eos quod
+        quibusdam placeat, aspernatur quisquam maiores rerum blanditiis unde!
+        Labore tenetur molestiae quibusdam rerum fuga possimus aliquid! Saepe
+        totam voluptatibus vero qui eaque eveniet! Possimus voluptatum tempore
+        doloribus at itaque laboriosam soluta quis iste aspernatur ab eum
+        excepturi suscipit eos, blanditiis ad corporis harum delectus, hic
+        quasi, perspiciatis saepe rerum dignissimos natus fugit! Molestias!
+        Blanditiis, molestiae dolorum iusto quis eligendi harum doloremque
+        tenetur, tempore in perspiciatis autem impedit quibusdam repudiandae
+        reprehenderit deleniti assumenda reiciendis maxime iste libero
+        consequuntur eveniet. Culpa fugiat quos quisquam repudiandae. Beatae
+        culpa expedita aut alias at reiciendis ex enim recusandae quod, corrupti
+        accusamus quae consectetur impedit maiores hic quasi inventore, ratione
+        fugiat totam qui dolor vero! Hic neque dolor eveniet. Magnam nihil vero
+        asperiores laboriosam quasi, atque ullam sapiente eius excepturi debitis
+        quis quod necessitatibus quibusdam adipisci dignissimos labore et sint
+        cupiditate consequatur. Itaque unde ut aspernatur rerum quo quasi.
+        Assumenda perferendis, laudantium, error quidem nulla reprehenderit
+        reiciendis aut aliquid ipsam quod id repellat! Facilis, dignissimos
+        blanditiis beatae quam eos corporis necessitatibus, aperiam maiores
+        excepturi praesentium consequatur obcaecati reiciendis expedita?
       </section>
-      {/* )} */}
     </>
   );
 };
