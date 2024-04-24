@@ -114,7 +114,7 @@ const Hero = () => {
             onClick={() => {
               setVideoModalIsOpen(true);
             }}
-            className={`video-modal-btn flex gap-3 items-center after:content-[''] after:absolute after:h-full after:w-full after:top-0 after:left-0 after:z-[10] after:bg-black/10  after:pointer-events-none after:transition-all after:duration-300 after:ease-out group mt-[100px]`}
+            className={`video-modal-btn flex gap-3 items-center after:content-[''] after:absolute after:h-full after:w-full after:top-0 after:left-0 after:z-[10] after:bg-black/10  after:pointer-events-none after:transition-all after:duration-300 after:ease-out group mt-[100px] p-10`}
           >
             <img
               src="/images/watch-video-icon.svg"
@@ -186,6 +186,31 @@ const Hero = () => {
         )}
       </AnimatePresence>
 
+      <section className="sidebar absolute top-[50%] -translate-y-[60%] right-0 z-[9999] flex flex-col items-end">
+        <div className="sidebar-btn bg-tertiary h-[109px] rounded-tl-[20px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-tl-[0px]">
+          <div className="sidebar-btn__menu-icon menu-icon h-[12px] w-[25px] flex flex-col justify-between items-end">
+            <span className="menu-icon__line block h-[1px] w-full bg-secondary group-hover:w-[15px] transition-all duration-300 ease-out"></span>
+            <span className="menu-icon__line block h-[1px] w-full bg-secondary group-hover:w-[32px] transition-all duration-300 ease-out"></span>
+            <span className="menu-icon__line block h-[1px] w-full bg-secondary group-hover:w-[15px] transition-all duration-300 ease-out"></span>
+          </div>
+          <div className="sidebar-btn__text h-[39px]">
+            <span className="btn text-secondary rotate-[270deg] translate-y-[12px]">
+              Menu
+            </span>
+          </div>
+        </div>
+        <div className="sidebar-btn bg-secondary h-[145px] w-[50px] rounded-bl-[20px] flex flex-col gap-[13px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-bl-[0px] hover:bg-primary hover:text-white">
+          <div className="sidebar-btn__book-icon book-icon h-[6px] w-[12px] rotate-180 flex flex-col justify-between">
+            <span className="book-icon__line h-[1px] w-[9px] bg-tertiary -rotate-45 "></span>
+            <span className="book-icon__line h-[1px] w-[9px] bg-tertiary rotate-45 translate-y-[1px]"></span>
+          </div>
+          <div className="sidebar-btn__text h-[73.5px]">
+            <span className="btn text-tertiary rotate-[270deg] translate-y-[32px] translate-x-[1.75px] whitespace-nowrap">
+              Book Now
+            </span>
+          </div>
+        </div>
+      </section>
       <section className="menu-modal"></section>
 
       <section className="bg-primary text-40 py-100 px-80 text-center">
