@@ -18,21 +18,7 @@ const HeroLogo = () => {
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     setScaleValue(1 - scrollYProgress.current);
-    console.log(scaleValue);
   });
-
-  // const logoInViewVariants = {
-  //   hidden: { opacity: 0, y: '-20px' },
-  //   show: {
-  //     opacity: 1,
-  //     y: 0,
-  //     transition: {
-  //       delay: 0.3,
-  //       duration: 0.6,
-  //       ease: 'easeOut',
-  //     },
-  //   },
-  // };
 
   return (
     <>
@@ -66,7 +52,7 @@ const HeroLogo = () => {
             opacity: 1,
             y: 0,
             transition: {
-              duration: 0.4,
+              duration: 0.6,
               ease: 'easeOut',
             },
           }}
