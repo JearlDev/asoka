@@ -1,9 +1,4 @@
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useScroll,
-} from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import React, { useRef, useState } from 'react';
 
 const HeroLogo = () => {
