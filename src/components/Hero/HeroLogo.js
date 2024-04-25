@@ -1,4 +1,9 @@
-import { useMotionValueEvent, useScroll } from 'framer-motion';
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from 'framer-motion';
 import React, { useRef, useState } from 'react';
 
 const HeroLogo = () => {
@@ -6,31 +11,73 @@ const HeroLogo = () => {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['-25px start', 'end start'],
+    offset: ['-25px start', '155px start'],
   });
 
   const [scaleValue, setScaleValue] = useState(1);
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     setScaleValue(1 - scrollYProgress.current);
+    console.log(scaleValue);
   });
+
+  // const logoInViewVariants = {
+  //   hidden: { opacity: 0, y: '-20px' },
+  //   show: {
+  //     opacity: 1,
+  //     y: 0,
+  //     transition: {
+  //       delay: 0.3,
+  //       duration: 0.6,
+  //       ease: 'easeOut',
+  //     },
+  //   },
+  // };
 
   return (
     <>
-      <a
+      <motion.a
+        ref={ref}
+        style={{
+          scale: scaleValue,
+        }}
+        initial={{
+          cursor: 'auto',
+        }}
+        whileInView={{
+          cursor: 'pointer',
+          transition: {
+            duration: 0,
+            ease: 'easeOut',
+          },
+        }}
+        viewport={{
+          margin: '-125px',
+        }}
         href="/"
-        className="logo-link absolute top-[25px] mx-auto z-[20] transition-all duration-300 ease-out"
+        className="logo-link absolute top-[25px] mx-auto h-[200px] w-[189.86px] z-[20] transition-all duration-300 ease-out"
       >
-        <img
-          ref={ref}
-          style={{
-            opacity: scaleValue,
+        <motion.img
+          initial={{
+            opacity: 0,
+            y: '-10px',
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.4,
+              ease: 'easeOut',
+            },
+          }}
+          viewport={{
+            margin: '-125px',
           }}
           src="/images/logo-white.svg"
           alt=""
-          className="logo logo--hero object-contain h-[200px]"
+          className="logo logo--hero h-full w-full"
         />
-      </a>
+      </motion.a>
     </>
   );
 };
