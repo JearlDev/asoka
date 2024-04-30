@@ -1,7 +1,6 @@
 import {
   AnimatePresence,
   motion,
-  useMotionValueEvent,
   useScroll,
   useTransform,
 } from 'framer-motion';
@@ -13,7 +12,6 @@ import HeroLogo from './HeroLogo';
 
 const Hero = () => {
   const [videoModalIsOpen, setVideoModalIsOpen] = useState(false);
-  const [sidebarIsShown, setSidebarIsShown] = useState(true);
 
   const data = {
     videoUrl: '/videos/asoka-homepage.mov',
@@ -46,19 +44,6 @@ const Hero = () => {
       }
     }
   }, [videoModalIsOpen, data.videoUrl]);
-
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    console.log('Page scroll: ', latest);
-    if (latest > 250) {
-      setSidebarIsShown(false);
-    } else {
-      setSidebarIsShown(true);
-    }
-  });
-
-  // useEffect(() => {}, []);
 
   const videoModalWrapperVariants = {
     hidden: { opacity: 0 },
@@ -97,23 +82,6 @@ const Hero = () => {
     },
   };
 
-  const sidebarVariants = {
-    hidden: {
-      x: '100%',
-      transition: {
-        duration: 0.4,
-        ease: 'easeOut',
-      },
-    },
-    show: {
-      x: 0,
-      transition: {
-        duration: 0.4,
-        ease: 'easeOut',
-      },
-    },
-  };
-
   const container = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -125,35 +93,32 @@ const Hero = () => {
 
   return (
     <>
-      <section
-        ref={container}
-        className="hero h-[100dvh] w-full relative flex flex-col items-center overflow-hidden"
-      >
+      <section ref={container} className="hero">
         <HeroLogo />
         <motion.img
           style={{ y }}
           src={data.imageUrl}
           alt=""
-          className="bg-img bg-img--hero absolute top-0 left-0 object-cover h-full w-full"
+          className="bg-img bg-img--hero"
         />
-        <div className="video-modal-btn-wrapper absolute z-10 h-full w-full flex items-center justify-center">
+        <div className="video-modal-btn-wrapper">
           <button
             onClick={() => {
               setVideoModalIsOpen(true);
             }}
-            className={`video-modal-btn flex gap-3 items-center after:content-[''] after:absolute after:h-full after:w-full after:top-0 after:left-0 after:z-[10] after:bg-black/10  after:pointer-events-none after:transition-all after:duration-300 after:ease-out group mt-[100px] p-10`}
+            className={`video-modal-btn group`}
           >
             <img
               src="/images/watch-video-icon.svg"
               alt=""
-              className={`video-modal-btn__icon relative z-[20] ${
+              className={`video-modal-btn__icon ${
                 videoModalIsOpen
                   ? 'scale-[1.5] translate-x-[50.45px]'
                   : 'group-hover:scale-[1.5] group-hover:translate-x-[50.45px]'
               }  transition-all duration-[400ms] ease-out`}
             />
             <span
-              className={`video-modal-btn__text btn text-white relative z-[20] ${
+              className={`video-modal-btn__text btn ${
                 videoModalIsOpen
                   ? 'opacity-0 translate-x-[-15px]'
                   : 'group-hover:opacity-0 group-hover:translate-x-[-15px]'
@@ -177,9 +142,9 @@ const Hero = () => {
             animate="show"
             exit="hidden"
             variants={videoModalWrapperVariants}
-            className="video-modal fixed h-screen w-full top-0 right-0 z-[99999999] bg-black/70"
+            className="video-modal"
           >
-            <div className="video-modal__inner h-full w-full flex items-center justify-center">
+            <div className="video-modal__inner">
               <motion.button
                 initial="hidden"
                 animate="show"
@@ -188,7 +153,7 @@ const Hero = () => {
                 onClick={() => {
                   setVideoModalIsOpen(false);
                 }}
-                className="video-modal__close flex items-center gap-3 transition-all duration-300 ease-out absolute top-[24px] right-[28px] z-50 py-10 hover:cursor-pointer"
+                className="video-modal__close"
               >
                 <img
                   src="/images/icons/close.svg"
@@ -204,7 +169,7 @@ const Hero = () => {
                 animate="show"
                 exit="hidden"
                 variants={videoModalVariants}
-                className="h-[42vw] w-[82vw] -md:h-[70vh] -md:w-[90vw] overflow-hidden object-cover bg-transparent rounded-[10px]"
+                className="video-modal__video"
                 controls
                 type="video/mp4"
               ></motion.video>
@@ -212,83 +177,6 @@ const Hero = () => {
           </motion.section>
         )}
       </AnimatePresence>
-
-      <AnimatePresence>
-        {sidebarIsShown && (
-          <motion.section
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            variants={sidebarVariants}
-            className="sidebar absolute top-[35%] -md:top-[40%] right-0 z-[9999] flex flex-col items-end"
-          >
-            <div className="sidebar-btn bg-secondary h-[109px] rounded-tl-[20px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-tl-[0px]">
-              <div className="sidebar-btn__menu-icon menu-icon h-[12px] w-[25px] flex flex-col justify-between items-end">
-                <span className="menu-icon__line block h-[1px] w-full bg-tertiary group-hover:w-[15px] transition-all duration-300 ease-out"></span>
-                <span className="menu-icon__line block h-[1px] w-full bg-tertiary group-hover:w-[32px] transition-all duration-300 ease-out"></span>
-                <span className="menu-icon__line block h-[1px] w-full bg-tertiary group-hover:w-[15px] transition-all duration-300 ease-out"></span>
-              </div>
-              <div className="sidebar-btn__text h-[39px]">
-                <span className="btn text-tertiary rotate-[270deg] translate-y-[12px]">
-                  Menu
-                </span>
-              </div>
-            </div>
-            <div className="sidebar-btn bg-tertiary overflow-hidden h-[145px] w-[50px] rounded-bl-[20px] flex flex-col gap-[13px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-bl-[0px] hover:bg-primary hover:text-white">
-              <div className="sidebar-btn__book-icon book-icon h-[6px] w-[12px] rotate-180 flex flex-col justify-between">
-                <span className="book-icon__line h-[1px] w-[9px] bg-secondary -rotate-45 group-hover:translate-x-[-8px] group-hover:bg-white transition-all duration-300 ease-out"></span>
-                <span className="book-icon__line book-icon__line--hover block h-[1px] w-0 bg-secondary group-hover:bg-white group-hover:translate-x-[-7px] group-hover:w-[30px] transition-all duration-300 ease-out"></span>
-                <span className="book-icon__line h-[1px] w-[9px] bg-secondary group-hover:bg-white rotate-45 translate-y-[1px] group-hover:translate-x-[-8px] transition-all duration-300 ease-out"></span>
-              </div>
-              <div className="sidebar-btn__text h-[73.5px]">
-                <span className="btn text-secondary rotate-[270deg] translate-y-[32px] translate-x-[1.75px] whitespace-nowrap group-hover:text-white">
-                  Book Now
-                </span>
-              </div>
-            </div>
-          </motion.section>
-        )}
-      </AnimatePresence>
-
-      <section className="menu-modal"></section>
-
-      <section className="bg-primary text-40 py-100 px-80 text-center">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus rem
-        ratione eum pariatur saepe numquam laudantium omnis obcaecati eveniet
-        nisi veniam dolor facilis distinctio, voluptatibus amet provident.
-        Similique, consequatur quas! Commodi inventore beatae porro dicta
-        excepturi praesentium corrupti quo tempore molestiae? Dolor cupiditate
-        earum nam voluptas consequatur repellendus ab odit blanditiis nesciunt,
-        culpa veniam reiciendis minima atque ullam laborum. Iusto! Nostrum
-        voluptatem, fugiat beatae odit, vel eaque expedita commodi fugit
-        exercitationem doloremque asperiores mollitia, impedit labore provident
-        ipsum rem distinctio velit consequatur accusamus tempore consectetur
-        dolor libero! Minus, nisi magnam. Maiores quos aliquid nisi voluptatem
-        earum explicabo temporibus modi, adipisci eaque dolore blanditiis
-        voluptates, est saepe quia cupiditate doloremque pariatur veritatis et!
-        Aspernatur exercitationem saepe assumenda odio. Distinctio, ut.
-        Perspiciatis? Sit, voluptates debitis doloribus, consequatur eos quod
-        quibusdam placeat, aspernatur quisquam maiores rerum blanditiis unde!
-        Labore tenetur molestiae quibusdam rerum fuga possimus aliquid! Saepe
-        totam voluptatibus vero qui eaque eveniet! Possimus voluptatum tempore
-        doloribus at itaque laboriosam soluta quis iste aspernatur ab eum
-        excepturi suscipit eos, blanditiis ad corporis harum delectus, hic
-        quasi, perspiciatis saepe rerum dignissimos natus fugit! Molestias!
-        Blanditiis, molestiae dolorum iusto quis eligendi harum doloremque
-        tenetur, tempore in perspiciatis autem impedit quibusdam repudiandae
-        reprehenderit deleniti assumenda reiciendis maxime iste libero
-        consequuntur eveniet. Culpa fugiat quos quisquam repudiandae. Beatae
-        culpa expedita aut alias at reiciendis ex enim recusandae quod, corrupti
-        accusamus quae consectetur impedit maiores hic quasi inventore, ratione
-        fugiat totam qui dolor vero! Hic neque dolor eveniet. Magnam nihil vero
-        asperiores laboriosam quasi, atque ullam sapiente eius excepturi debitis
-        quis quod necessitatibus quibusdam adipisci dignissimos labore et sint
-        cupiditate consequatur. Itaque unde ut aspernatur rerum quo quasi.
-        Assumenda perferendis, laudantium, error quidem nulla reprehenderit
-        reiciendis aut aliquid ipsam quod id repellat! Facilis, dignissimos
-        blanditiis beatae quam eos corporis necessitatibus, aperiam maiores
-        excepturi praesentium consequatur obcaecati reiciendis expedita?
-      </section>
     </>
   );
 };

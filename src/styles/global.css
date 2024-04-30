@@ -106,3 +106,9 @@
   @apply text-white bg-white  after:bg-primary  hover:text-secondary;
 }
 /* Buttons End */
+
+/* Images Start */
+.bg-img {
+  @apply absolute top-0 left-0 object-cover h-full w-full;
+}
+/* Images End */
