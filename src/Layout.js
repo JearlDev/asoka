@@ -1,11 +1,23 @@
-import React from 'react';
+import Lenis from '@studio-freight/lenis';
+import React, { useEffect } from 'react';
 import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
+import MenuModal from './components/MenuModal/MenuModal';
 
 const Layout = ({ children }) => {
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  }, []);
+
   return (
     <>
-      <Header />
+      <MenuModal />
       {children}
       <Footer />
     </>

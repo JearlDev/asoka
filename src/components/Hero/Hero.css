@@ -1,14 +1,29 @@
-.video-modal {
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
+.hero {
+  @apply h-[100dvh] w-full relative flex flex-col items-center overflow-hidden;
 }
-.video-modal video {
-  transform: scale(0.9, 0.9);
-  opacity: 0;
-  transition: all 0.4s ease-in-out;
+/* Video Modal Start */
+.video-modal-btn-wrapper {
+  @apply absolute z-10 h-full w-full flex items-center justify-center;
+}
+.video-modal-btn {
+  @apply flex gap-3 items-center after:content-[''] after:absolute after:h-full after:w-full after:top-0 after:left-0 after:z-[10] after:bg-black/10  after:pointer-events-none after:transition-all after:duration-300 after:ease-out mt-[100px] p-10;
+}
+.video-modal-btn__icon {
+  @apply relative z-[20];
+}
+.video-modal-btn__text {
+  @apply text-white relative z-[20];
+}
+.video-modal {
+  @apply fixed h-screen w-full top-0 right-0 z-[99999999] bg-black/70;
+}
+.video-modal__inner {
+  @apply h-full w-full flex items-center justify-center;
 }
 .video-modal__close {
-  transform: translateX(10%);
-  opacity: 0;
-  transition: all 0.4s ease-in-out;
+  @apply flex items-center gap-3 transition-all duration-300 ease-out absolute top-[24px] right-[28px] z-50 py-10 hover:cursor-pointer;
 }
+.video-modal__video {
+  @apply h-[42vw] w-[82vw] -md:h-[70vh] -md:w-[90vw] overflow-hidden object-cover bg-transparent rounded-[10px];
+}
+/* Video Modal End */
