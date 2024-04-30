@@ -9,14 +9,30 @@ import './MenuModal.css';
 
 const MenuModal = () => {
   const [sidebarIsShown, setSidebarIsShown] = useState(true);
+  const [sidebarIsFixed, setSidebarIsFixed] = useState(false);
 
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     console.log('Page scroll: ', latest);
+
+    let isScrollingDown = scrollY.getPrevious() - latest < 0;
+
+    let scrollDirection = isScrollingDown ? 'down' : 'up';
+
     if (latest > 250) {
       setSidebarIsShown(false);
     } else {
+      setSidebarIsShown(true);
+    }
+
+    if (latest > 800) {
+      setSidebarIsFixed(true);
+    } else {
+      setSidebarIsFixed(false);
+    }
+
+    if (latest > 1250 && scrollDirection === 'up') {
       setSidebarIsShown(true);
     }
   });
@@ -46,7 +62,9 @@ const MenuModal = () => {
             animate="show"
             exit="hidden"
             variants={sidebarVariants}
-            className="sidebar absolute top-[35%] -md:top-[40%] right-0 z-[9999] flex flex-col items-end"
+            className={`sidebar ${
+              sidebarIsFixed ? 'fixed' : 'absolute'
+            } top-[35%] -md:top-[40%] right-0 z-[9999] flex flex-col items-end`}
           >
             <div className="sidebar-btn bg-secondary h-[109px] rounded-tl-[20px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-tl-[0px]">
               <div className="sidebar-btn__menu-icon menu-icon h-[12px] w-[25px] flex flex-col justify-between items-end">
