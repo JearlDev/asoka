@@ -1,0 +1,7 @@
+.social-icon {
+  @apply transition-all duration-300 ease-out;
+}
+.social-icon:hover {
+  filter: invert(59%) sepia(68%) saturate(419%) hue-rotate(8deg) brightness(89%)
+    contrast(87%);
+}

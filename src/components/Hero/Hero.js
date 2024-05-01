@@ -153,14 +153,14 @@ const Hero = () => {
                 onClick={() => {
                   setVideoModalIsOpen(false);
                 }}
-                className="video-modal__close"
+                className="video-modal__close group"
               >
-                <img
-                  src="/images/icons/close.svg"
-                  alt=""
-                  className="video-modal__close__icon"
-                />
-                <span className="menu-modal__close__text text-white btn">
+                <div className="close-icon">
+                  <span className="close-icon__line"></span>
+                  <span className="close-icon__line"></span>
+                  <span className="close-icon__line"></span>
+                </div>
+                <span className="menu-modal__close__text text-white btn pb-[2px]">
                   Close
                 </span>
               </motion.button>

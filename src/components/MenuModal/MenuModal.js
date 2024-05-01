@@ -65,16 +65,20 @@ const MenuModal = () => {
     },
     socialIcons: [
       {
-        url: '/images/icons/x-logo.svg',
+        icon: '/images/icons/x-logo.svg',
+        link: 'https://twitter.com/?lang=en',
       },
       {
-        url: '/images/icons/insta-logo.svg',
+        icon: '/images/icons/insta-logo.svg',
+        link: 'https://www.instagram.com/',
       },
       {
-        url: '/images/icons/fb-logo.svg',
+        icon: '/images/icons/fb-logo.svg',
+        link: 'https://www.instagram.com/',
       },
       {
-        url: '/images/icons/yt-logo.svg',
+        icon: '/images/icons/yt-logo.svg',
+        link: 'https://www.instagram.com/',
       },
     ],
   };
@@ -162,13 +166,13 @@ const MenuModal = () => {
         )}
       </AnimatePresence>
 
-      <section className="menu-modal fixed top-0 right-0 h-screen w-full z-[99999] bg-black/50">
-        <div className="menu-modal__inner">
-          <button className="menu-modal__close h-[109px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out">
-            <div className="close-icon h-[16px] w-[16px] flex flex-col justify-between items-end">
-              <span className="close-icon__line block h-[1px] w-full bg-white group-hover:w-[15px] transition-all duration-300 ease-out"></span>
-              <span className="close-icon__line block h-[1px] w-full bg-white group-hover:w-[32px] transition-all duration-300 ease-out"></span>
-              <span className="close-icon__line block h-[1px] w-full bg-white group-hover:w-[15px] transition-all duration-300 ease-out"></span>
+      <section className="menu-modal fixed top-0 right-0 h-screen w-full z-[99999] bg-black/50 flex justify-end">
+        <div className="menu-modal__inner bg-secondary h-full w-[80%] relative flex">
+          <button className="menu-modal__close absolute top-[30%] -md:top-[35%] right-0 z-[9999] h-[109px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out">
+            <div className="close-icon">
+              <span className="close-icon__line"></span>
+              <span className="close-icon__line"></span>
+              <span className="close-icon__line"></span>
             </div>
             <div className="close-text h-[39px]">
               <span className="btn text-white rotate-[270deg] translate-y-[12px]">
@@ -176,19 +180,23 @@ const MenuModal = () => {
               </span>
             </div>
           </button>
-          <div className="social-icons">
+          <div className="social-icons absolute top-[40px] left-[10vw] flex gap-4 items-center">
             {data.socialIcons.length > 0 &&
               data.socialIcons.map((item) => {
-                return <img src={item.url} alt="" className="social-icon" />;
+                return (
+                  <a href={item.link} target="_blank">
+                    <img src={item.icon} alt="" className="social-icon" />
+                  </a>
+                );
               })}
           </div>
-          <div className="menu-modal__menu-wrapper relative">
+          <div className="menu-modal__menu-wrapper w-full relative box-content mx-[10vw] my-[10vw] rounded-[4px] after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full after:z-[2] after:bg-secondary after:opacity-[0.97] after:rounded-[4px]">
             <img
               src={data.patternImageUrl}
               alt=""
-              className="bg-img menu-modal__bg-img"
+              className="bg-img menu-modal__bg-img absolute z-[1] top-0 left-0 h-full w-full rounded-[4px]"
             />
-            <div className="primary-nav">
+            <div className="primary-nav relative z-[3]">
               {data.primaryMenu.length > 0 &&
                 data.primaryMenu.map((item) => {
                   return (
@@ -198,7 +206,7 @@ const MenuModal = () => {
                   );
                 })}
             </div>
-            <div className="secondary-nav">
+            <div className="secondary-nav relative z-[3]">
               <div className="secondary-nav__heading">Our Rooms</div>
               <div className="secondary-nav__items">
                 {data.secondaryMenu.length > 0 &&
