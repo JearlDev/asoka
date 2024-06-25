@@ -167,8 +167,8 @@ const MenuModal = () => {
       </AnimatePresence>
 
       <section className="menu-modal fixed top-0 right-0 h-screen w-full z-[99999] bg-black/50 flex justify-end">
-        <div className="menu-modal__inner bg-secondary h-full w-[80%] relative flex">
-          <button className="menu-modal__close absolute top-[30%] -md:top-[35%] right-0 z-[9999] h-[109px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out">
+        <div className="menu-modal__inner bg-secondary h-full w-[80%] -lg:w-full relative flex items-center -lg:items-start @lg:overflow-auto">
+          <button className="menu-modal__close fixed top-[30%] -md:top-[35%] right-0 z-[9999] h-[109px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out">
             <div className="close-icon">
               <span className="close-icon__line"></span>
               <span className="close-icon__line"></span>
@@ -190,13 +190,13 @@ const MenuModal = () => {
                 );
               })}
           </div>
-          <div className="menu-modal__menu-wrapper w-full relative box-content mx-[10vw] my-[10vw] rounded-[4px] after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full after:z-[2] after:bg-secondary after:opacity-[0.97] after:rounded-[4px]">
+          <div className="menu-modal__menu-wrapper w-full h-[70%] -lg:h-[45%] -lg:min-h-[500px] -md:min-h-[290px] -sm:min-h-[unset] -md:h-[calc(100dvh-200px)] -md:overflow-auto relative box-content -md:box-border mx-[calc(10vw+40px)] -md:mx-30 -md:mr-[55px] my-[10vw] -lg:my-[20vw] -md:my-100 rounded-[4px] after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full after:z-[2] after:bg-secondary after:opacity-[0.97] after:rounded-[4px] -md:after:h-[710px] flex gap-[13vw] -xl:gap-[10vw] -md:flex-col -md:gap-[40px] -md:px-30 -md:py-40">
             <img
               src={data.patternImageUrl}
               alt=""
-              className="bg-img menu-modal__bg-img absolute z-[1] top-0 left-0 h-full w-full rounded-[4px]"
+              className="bg-img menu-modal__bg-img absolute z-[1] top-0 left-0 h-full -md:h-[710px] w-full rounded-[4px]"
             />
-            <div className="primary-nav relative z-[3]">
+            <div className="primary-nav relative z-[3] text-28 -md:text-24 heading text-white flex flex-col gap-7 justify-center left-[-40px] -md:left-0">
               {data.primaryMenu.length > 0 &&
                 data.primaryMenu.map((item) => {
                   return (
@@ -206,9 +206,11 @@ const MenuModal = () => {
                   );
                 })}
             </div>
-            <div className="secondary-nav relative z-[3]">
-              <div className="secondary-nav__heading">Our Rooms</div>
-              <div className="secondary-nav__items">
+            <div className="secondary-nav relative z-[3] heading text-white text-20 -md:text-17 flex flex-col gap-5 justify-center">
+              <div className="secondary-nav__heading font-body text-bodyLight text-16">
+                Our Rooms
+              </div>
+              <div className="secondary-nav__items flex flex-col gap-5">
                 {data.secondaryMenu.length > 0 &&
                   data.secondaryMenu.map((item) => {
                     return (
@@ -222,7 +224,7 @@ const MenuModal = () => {
                   })}
               </div>
               {data.bookNowLink && (
-                <div className="btn-wrapper">
+                <div className="btn-wrapper pt-20">
                   <a
                     href={data.bookNowLink.url}
                     className="btn btn--rounded btn--roundedGold"
