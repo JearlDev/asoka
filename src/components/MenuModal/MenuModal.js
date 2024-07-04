@@ -11,6 +11,8 @@ const MenuModal = () => {
   const [sidebarIsShown, setSidebarIsShown] = useState(true);
   const [sidebarIsFixed, setSidebarIsFixed] = useState(false);
 
+  const [menuModalIsShown, setMenuModalIsShown] = useState(false);
+
   const data = {
     patternImageUrl: '/images/bg-pattern-small.webp',
     stayImageUrl: '/images/bg-stay.webp',
@@ -125,6 +127,56 @@ const MenuModal = () => {
       },
     },
   };
+
+  const menuModalVariants = {
+    hidden: {
+      opacity: 0,
+      transition: {
+        delay: 0.2,
+        duration: 0.4,
+        ease: 'easeOut',
+      },
+    },
+    show: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const menuModalInnerVariants = {
+    hidden: {
+      opacity: 0,
+      x: '10%',
+      transition: {
+        delay: 1,
+        duration: 0.4,
+        ease: 'easeOut',
+      },
+    },
+    show: {
+      opacity: 1,
+      x: '0%',
+      transition: {
+        delay: 0.2,
+        duration: 0.4,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const handleShowMenu = () => {
+    setSidebarIsShown(false);
+    setMenuModalIsShown(true);
+  };
+
+  const handleHideMenu = () => {
+    setMenuModalIsShown(false);
+    setSidebarIsShown(true);
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -138,7 +190,10 @@ const MenuModal = () => {
               sidebarIsFixed ? 'fixed' : 'absolute'
             } top-[35%] -md:top-[40%] right-0 z-[9999] flex flex-col items-end`}
           >
-            <div className="sidebar-btn bg-secondary h-[109px] rounded-tl-[20px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-tl-[0px]">
+            <button
+              onClick={() => handleShowMenu()}
+              className="sidebar-btn bg-secondary h-[109px] rounded-tl-[20px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-tl-[0px]"
+            >
               <div className="sidebar-btn__menu-icon menu-icon h-[12px] w-[25px] flex flex-col justify-between items-end">
                 <span className="menu-icon__line block h-[1px] w-full bg-tertiary group-hover:w-[15px] transition-all duration-300 ease-out"></span>
                 <span className="menu-icon__line block h-[1px] w-full bg-tertiary group-hover:w-[32px] transition-all duration-300 ease-out"></span>
@@ -149,7 +204,7 @@ const MenuModal = () => {
                   Menu
                 </span>
               </div>
-            </div>
+            </button>
             <div className="sidebar-btn bg-tertiary overflow-hidden h-[145px] w-[50px] rounded-bl-[20px] flex flex-col gap-[13px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out hover:w-[60px] hover:rounded-bl-[0px] hover:bg-primary hover:text-white">
               <div className="sidebar-btn__book-icon book-icon h-[6px] w-[12px] rotate-180 flex flex-col justify-between">
                 <span className="book-icon__line h-[1px] w-[9px] bg-secondary -rotate-45 group-hover:translate-x-[-8px] group-hover:bg-white transition-all duration-300 ease-out"></span>
@@ -166,79 +221,101 @@ const MenuModal = () => {
         )}
       </AnimatePresence>
 
-      <section className="menu-modal fixed top-0 right-0 h-screen w-full z-[99999] bg-black/50 flex justify-end">
-        <div className="menu-modal__inner bg-secondary h-full w-[80%] -lg:w-full relative flex items-center -lg:items-start @lg:overflow-auto">
-          <button className="menu-modal__close fixed top-[30%] -md:top-[35%] right-0 z-[9999] h-[109px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out">
-            <div className="close-icon">
-              <span className="close-icon__line"></span>
-              <span className="close-icon__line"></span>
-              <span className="close-icon__line"></span>
-            </div>
-            <div className="close-text h-[39px]">
-              <span className="btn text-white rotate-[270deg] translate-y-[12px]">
-                Close
-              </span>
-            </div>
-          </button>
-          <div className="social-icons absolute top-[40px] left-[10vw] flex gap-4 items-center">
-            {data.socialIcons.length > 0 &&
-              data.socialIcons.map((item) => {
-                return (
-                  <a href={item.link} target="_blank">
-                    <img src={item.icon} alt="" className="social-icon" />
-                  </a>
-                );
-              })}
-          </div>
-          <div className="menu-modal__menu-wrapper w-full h-[70%] -lg:h-[45%] -lg:min-h-[500px] -md:min-h-[290px] -sm:min-h-[unset] -md:h-[calc(100dvh-200px)] -md:overflow-auto relative box-content -md:box-border mx-[calc(10vw+40px)] -md:mx-30 -md:mr-[55px] my-[10vw] -lg:my-[20vw] -md:my-100 rounded-[4px] after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full after:z-[2] after:bg-secondary after:opacity-[0.97] after:rounded-[4px] -md:after:h-[710px] flex gap-[13vw] -xl:gap-[10vw] -md:flex-col -md:gap-[40px] -md:px-30 -md:py-40">
-            <img
-              src={data.patternImageUrl}
-              alt=""
-              className="bg-img menu-modal__bg-img absolute z-[1] top-0 left-0 h-full -md:h-[710px] w-full rounded-[4px]"
-            />
-            <div className="primary-nav relative z-[3] text-28 -md:text-24 heading text-white flex flex-col gap-7 justify-center left-[-40px] -md:left-0">
-              {data.primaryMenu.length > 0 &&
-                data.primaryMenu.map((item) => {
-                  return (
-                    <a href={item.url} className="primary-nav__item nav-item">
-                      {item.title}
-                    </a>
-                  );
-                })}
-            </div>
-            <div className="secondary-nav relative z-[3] heading text-white text-20 -md:text-17 flex flex-col gap-5 justify-center">
-              <div className="secondary-nav__heading font-body text-bodyLight text-16">
-                Our Rooms
-              </div>
-              <div className="secondary-nav__items flex flex-col gap-5">
-                {data.secondaryMenu.length > 0 &&
-                  data.secondaryMenu.map((item) => {
+      <AnimatePresence>
+        {menuModalIsShown && (
+          <motion.section
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            variants={menuModalVariants}
+            className="menu-modal fixed top-0 right-0 h-screen w-full z-[99999] bg-black/50 flex justify-end"
+          >
+            <motion.div
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              variants={menuModalInnerVariants}
+              className="menu-modal__inner bg-secondary h-full w-[80%] -lg:w-full relative flex items-center -lg:items-start @lg:overflow-auto"
+            >
+              <button
+                onClick={() => handleHideMenu()}
+                className="menu-modal__close fixed top-[30%] -md:top-[35%] right-0 z-[9999] h-[109px] w-[50px] flex flex-col gap-[10px] items-center justify-center hover:cursor-pointer group transition-all duration-300 ease-out"
+              >
+                <div className="close-icon">
+                  <span className="close-icon__line"></span>
+                  <span className="close-icon__line"></span>
+                  <span className="close-icon__line"></span>
+                </div>
+                <div className="close-text h-[39px]">
+                  <span className="btn text-white rotate-[270deg] translate-y-[12px]">
+                    Close
+                  </span>
+                </div>
+              </button>
+              <div className="social-icons absolute top-[40px] left-[10vw] flex gap-4 items-center">
+                {data.socialIcons.length > 0 &&
+                  data.socialIcons.map((item) => {
                     return (
-                      <a
-                        href={item.url}
-                        className="secondary-nav__item nav-item"
-                      >
-                        {item.title}
+                      <a href={item.link} target="_blank">
+                        <img src={item.icon} alt="" className="social-icon" />
                       </a>
                     );
                   })}
               </div>
-              {data.bookNowLink && (
-                <div className="btn-wrapper pt-20">
-                  <a
-                    href={data.bookNowLink.url}
-                    className="btn btn--rounded btn--roundedGold"
-                  >
-                    <span className="btn--rounded__text">
-                      {data.bookNowLink.title}
-                    </span>
-                  </a>
+              <div className="menu-modal__menu-wrapper w-full h-[70%] -lg:h-[45%] -lg:min-h-[500px] -md:min-h-[290px] -sm:min-h-[unset] -md:h-[calc(100dvh-200px)] -md:overflow-auto relative box-content -md:box-border mx-[calc(10vw+40px)] -md:mx-30 -md:mr-[55px] my-[10vw] -lg:my-[20vw] -md:my-100 rounded-[4px] after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full after:z-[2] after:bg-secondary after:opacity-[0.97] after:rounded-[4px] -md:after:h-[710px] flex gap-[13vw] -xl:gap-[10vw] -md:flex-col -md:gap-[40px] -md:px-30 -md:py-40">
+                <img
+                  src={data.patternImageUrl}
+                  alt=""
+                  className="bg-img menu-modal__bg-img absolute z-[1] top-0 left-0 h-full -md:h-[710px] w-full rounded-[4px]"
+                />
+                <div className="primary-nav relative z-[3] text-28 -md:text-24 heading text-white flex flex-col gap-7 justify-center left-[-40px] -md:left-0">
+                  {data.primaryMenu.length > 0 &&
+                    data.primaryMenu.map((item) => {
+                      return (
+                        <a
+                          href={item.url}
+                          className="primary-nav__item nav-item"
+                        >
+                          {item.title}
+                        </a>
+                      );
+                    })}
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+                <div className="secondary-nav relative z-[3] heading text-white text-20 -md:text-17 flex flex-col gap-5 justify-center">
+                  <div className="secondary-nav__heading font-body text-bodyLight text-16">
+                    Our Rooms
+                  </div>
+                  <div className="secondary-nav__items flex flex-col gap-5">
+                    {data.secondaryMenu.length > 0 &&
+                      data.secondaryMenu.map((item) => {
+                        return (
+                          <a
+                            href={item.url}
+                            className="secondary-nav__item nav-item"
+                          >
+                            {item.title}
+                          </a>
+                        );
+                      })}
+                  </div>
+                  {data.bookNowLink && (
+                    <div className="btn-wrapper pt-20">
+                      <a
+                        href={data.bookNowLink.url}
+                        className="btn btn--rounded btn--roundedGold"
+                      >
+                        <span className="btn--rounded__text">
+                          {data.bookNowLink.title}
+                        </span>
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.section>
+        )}
+      </AnimatePresence>
     </>
   );
 };
